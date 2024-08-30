@@ -1,4 +1,8 @@
 name: Merge Pull Request
+
+on:
+  workflow_dispatch:
+
 uses: peter-evans/merge-pull-request@v3
 with:
   commit-message: Merge update-translations
