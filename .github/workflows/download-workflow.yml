@@ -1,7 +1,10 @@
 name: Crowdin Download
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Crowdin Upload]
+    types:
+      - completed
 
 permissions: write-all
 
