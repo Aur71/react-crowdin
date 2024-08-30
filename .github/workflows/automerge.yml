@@ -3,15 +3,16 @@ name: Auto Merge Translations
 on:
   workflow_dispatch:
 
-auto_merge:
-  runs-on: ubuntu-latest
+jobs:
+  auto_merge:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Auto-merge Pull Request
-      uses: peter-evans/merge-pull-request@v3
-      with:
-        commit-message: Merge update-translations
-        merge-method: squash
-        pull-number: ${{ jobs.pull_translations.outputs.pull-request-number }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Auto-merge Pull Request
+        uses: peter-evans/merge-pull-request@v3
+        with:
+          commit-message: Merge update-translations
+          merge-method: squash
+          pull-number: ${{ jobs.pull_translations.outputs.pull-request-number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
