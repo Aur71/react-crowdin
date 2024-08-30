@@ -1,16 +1,40 @@
-name: automerge
+name: Auto Merge Translations
+
 on:
   pull_request:
+    branches:
+      - main
     types:
       - opened
+      - synchronize
+      - reopened
+
 jobs:
-  automerge:
+  auto-merge:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.ref == 'l10n_crowdin_translations'
     steps:
-      - id: automerge
-        name: automerge
-        uses: 'pascalgn/automerge-action@v0.16.3'
-        permissions:
-          contents: write
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Auto Merge PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pullRequestNumber = context.payload.pull_request.number;
+            const { data: pullRequest } = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pullRequestNumber
+            });
+
+            if (pullRequest.head.ref === 'l10n_crowdin_translations') {
+              await github.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pullRequestNumber
+              });
+              console.log(`PR #${pullRequestNumber} from 'l10n_crowdin_translations' merged successfully.`);
+            } else {
+              console.log(`PR #${pullRequestNumber} is not from 'l10n_crowdin_translations'.`);
+            }
