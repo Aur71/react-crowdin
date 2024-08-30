@@ -1,4 +1,6 @@
 {
   "header": "Hello World!",
-  "subheader": "Lorem Ipsu!"
+  "subheader": "Lorem Ipsu!",
+  "test-1": "Lorem Ipsu!",
+  "test-2": "Lorem Ipsu!"
 }
