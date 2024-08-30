@@ -4,15 +4,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto_merge:
+  automerge:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Auto-merge Pull Request
-        uses: peter-evans/merge-pull-request@v3
-        with:
-          commit-message: Merge update-translations
-          merge-method: squash
-          pull-number: ${{ jobs.pull_translations.outputs.pull-request-number }}
+      - id: automerge
+        name: automerge
+        uses: 'pascalgn/automerge-action@v0.16.3'
+        permissions:
+          contents: write
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
